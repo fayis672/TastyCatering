@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "222490258629",
+    "firebase_url": "https://tasty-catering.firebaseio.com",
+    "project_id": "tasty-catering",
+    "storage_bucket": "tasty-catering.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:222490258629:android:3fa11d262708dff11dd4ac",
+        "android_client_info": {
+          "package_name": "com.example.tastycatering"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "222490258629-b5dki6rptg9mn7vkom2hq56iu0aq8hnt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tastycatering",
+            "certificate_hash": "41761bb22fb554ae742aade13f914fa05e686c9d"
+          }
+        },
+        {
+          "client_id": "222490258629-1i8gmliftg22ndl54pf2n5c3t5pcvmvp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaTU1NeOQ2OU6vRTybEIB4wvkUp85f-rY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "222490258629-1i8gmliftg22ndl54pf2n5c3t5pcvmvp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

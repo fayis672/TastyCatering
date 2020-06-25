@@ -1,4 +1,4 @@
-package com.example.tastycatering.activity
+package com.example.tastycatering.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
