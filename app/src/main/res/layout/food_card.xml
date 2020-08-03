@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="Food"
-            type="com.example.tastycatering.model.Food" />
+            name="food"
+            type="com.example.tastycatering.data.model.Food" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -22,58 +22,17 @@
             android:layout_height="match_parent">
 
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_add_to_cart"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="55dp"
+                android:layout_height="45dp"
                 android:layout_marginBottom="5dp"
+                android:textSize="20sp"
+                app:icon="@drawable/ic_baseline_add_shopping_cart_24"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/guideline2">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_plus"
-                    style="@style/Widget.MaterialComponents.Button.Icon"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:layout_marginEnd="5dp"
-                    android:textSize="20sp"
-                    app:icon="@drawable/ic_baseline_add_24"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_minus"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:layout_marginStart="5dp"
-                    android:textSize="20sp"
-                    app:icon="@drawable/ic_baseline_remove_24"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:strokeColor="@color/colorPrimaryDark" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="7dp"
-                    android:layout_marginEnd="7dp"
-                    android:fontFamily="@font/baloo_da"
-                    android:text="@{Food.count}"
-                    android:textColor="#252424"
-                    android:textSize="25sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/btn_plus"
-                    app:layout_constraintStart_toEndOf="@+id/btn_minus"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:strokeColor="@color/colorPrimaryDark" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView2"
@@ -98,33 +57,34 @@
                 android:id="@+id/food_name"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:fontFamily="@font/baloo_da"
-                android:text="@{Food.name}"
+                android:text="@{food.name}"
                 android:textSize="17sp"
-                app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+                app:layout_constraintBottom_toTopOf="@+id/btn_add_to_cart"
                 app:layout_constraintEnd_toStartOf="@+id/guideline"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/guideline2"
-                app:layout_constraintTop_toTopOf="@+id/cardView2" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textview.MaterialTextView
-
                 android:id="@+id/materialTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/baloo_da"
-                android:text="Rs:"
+                android:text="@string/rs"
                 android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
+                app:layout_constraintBottom_toBottomOf="@+id/btn_book_now"
                 app:layout_constraintStart_toStartOf="@+id/guideline" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/food_price"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:fontFamily="@font/baloo_da"
-                android:text="@{Food.price}"
+                android:text="@{Double.toString(food.price)}"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 app:layout_constraintBaseline_toBaselineOf="@+id/materialTextView"
@@ -147,7 +107,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.8" />
+                app:layout_constraintGuide_percent="0.76" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline2"
@@ -155,6 +115,17 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.27" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_book_now"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_marginStart="7dp"
+                android:text="@string/book_now"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/btn_add_to_cart"
+                app:layout_constraintStart_toEndOf="@+id/btn_add_to_cart"
+                app:layout_constraintTop_toTopOf="@+id/btn_add_to_cart" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.tastycatering.ui.fragments.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_foodDetailsDialogFragment"
+            app:destination="@id/foodDetailsDialogFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/foodDetailsDialogFragment"
+        android:name="com.example.tastycatering.ui.fragments.FoodDetailsDialogFragment"
+        android:label="FoodDetailsDialogFragment"
+        tools:layout="@layout/fragment_food_details_dialog">
+        <argument
+            android:name="foodPosition"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
+
+</navigation>

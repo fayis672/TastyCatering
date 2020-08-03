@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="food"
+            type="com.example.tastycatering.data.model.Food" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/dialog_food_img"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:src="@drawable/biriyan"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/food_image" />
+
+        <ImageButton
+            android:id="@+id/dialog_btn_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/back_arrow"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/back_button" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/dialog_food_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:fontFamily="@font/baloo_da"
+            android:text="@{food.name}"
+            android:textSize="25sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_food_img" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/dialog_food_disc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:fontFamily="@font/baloo_da"
+            android:justificationMode="inter_word"
+            android:text="@{food.description}"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_food_name" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/materialTextView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/baloo_da"
+            android:text="Rs:"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@+id/dialog_food_price"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_food_disc" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/dialog_food_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/baloo_da"
+            android:text="@{Double.toString(food.price)}"
+            android:textSize="25sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/materialTextView2"
+            app:layout_constraintEnd_toStartOf="@+id/materialTextView3" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/materialTextView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:fontFamily="@font/baloo_da"
+            android:text="/Kg"
+            android:textSize="12sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/dialog_food_price"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+
+

@@ -1,4 +1,4 @@
-package com.example.tastycatering.view
+package com.example.tastycatering.ui.activity
 
 import android.app.Activity
 import android.content.Intent
@@ -35,13 +35,14 @@ class LoginActivity : AppCompatActivity() {
             val response = IdpResponse.fromResultIntent(data)
             if (resultCode == Activity.RESULT_OK) {
                 val user = FirebaseAuth.getInstance().currentUser
-               startActivity(Intent(this,HomeActivity::class.java).apply {
+               startActivity(Intent(this,
+                   HomeActivity::class.java).apply {
                    putExtra("user",user)
                })
 
                 // ...
             } else {
-               Toast.makeText(applicationContext,"failed",Toast.LENGTH_LONG).show()
+               Toast.makeText(applicationContext,"Authfailed",Toast.LENGTH_LONG).show()
             }
     }
 
