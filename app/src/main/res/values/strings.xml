@@ -17,4 +17,7 @@
     <string name="rs">Rs:</string>
     <string name="book_now">Book Now</string>
     <string name="back_button">back button</string>
+    <string name="home">Home</string>
+    <string name="my_cart">My Cart</string>
+    <string name="quantity">Quantity</string>
 </resources>

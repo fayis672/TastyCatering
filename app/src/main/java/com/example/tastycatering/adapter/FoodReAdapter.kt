@@ -30,9 +30,10 @@ class FoodReAdapter(private val foodList: List<Food>) : RecyclerView.Adapter<Foo
         holder.foodCardBinding.btnInfo.setOnClickListener {
 
 
-            val dir = HomeFragmentDirections.actionHomeFragmentToFoodDetailsDialogFragment()
+            val dir = HomeFragmentDirections.actionHomeFragmentToFoodDetailsDialogFragment(position)
             val nav =  Navigation.findNavController(holder.foodCardBinding.root)
             nav.navigate(dir)
+
         }
 
     }

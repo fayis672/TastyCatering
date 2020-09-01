@@ -9,6 +9,7 @@ import com.example.tastycatering.R
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 
 
 class LoginActivity : AppCompatActivity() {
@@ -16,6 +17,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
 
 
         val providers = arrayListOf(
@@ -46,6 +48,12 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
-
 }
+
+    override fun onStart() {
+        super.onStart()
+        if (FirebaseAuth.getInstance().currentUser!=null){
+            startActivity(Intent(this,HomeActivity::class.java))
+        }
+    }
 }
