@@ -29,6 +29,7 @@ class HomeActivity : AppCompatActivity() {
         findViewById<NavigationView>(R.id.nav_view).setupWithNavController(navController)
     }
 
+
 //    override fun onNavigateUp(): Boolean {
 //        val navController = findNavController(R.id.nav_host_fragment_container)
 //
