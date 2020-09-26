@@ -1,6 +1,8 @@
 package com.example.tastycatering.adapter
 
 
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -10,6 +12,7 @@ import com.example.tastycatering.R
 import com.example.tastycatering.data.model.Food
 import com.example.tastycatering.databinding.FoodCardBinding
 import com.example.tastycatering.databinding.FragmentFoodDetailsDialogBinding
+import com.example.tastycatering.ui.activity.OrderActivity
 import com.example.tastycatering.ui.fragments.HomeFragmentDirections
 
 
@@ -28,16 +31,24 @@ class FoodReAdapter(private val foodList: List<Food>) : RecyclerView.Adapter<Foo
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.foodCardBinding.food = foodList[position]
         holder.foodCardBinding.btnInfo.setOnClickListener {
-
-
             val dir = HomeFragmentDirections.actionHomeFragmentToFoodDetailsDialogFragment(position)
             val nav =  Navigation.findNavController(holder.foodCardBinding.root)
             nav.navigate(dir)
+        }
+        holder.foodCardBinding.btnBookNow.setOnClickListener {
+            holder.foodCardBinding.root.context.startActivity(
+                Intent(holder.foodCardBinding.root.context,OrderActivity::class.java).apply
+             {
 
+             })
+        }
+
+        holder.foodCardBinding.btnAddToCart.setOnClickListener {
+            Log.w("heloo","Button clicked")
         }
 
     }
 
-    inner class Holder(val foodCardBinding: FoodCardBinding) : RecyclerView.ViewHolder(foodCardBinding.root)
+    class Holder(val foodCardBinding: FoodCardBinding) : RecyclerView.ViewHolder(foodCardBinding.root)
 
     }

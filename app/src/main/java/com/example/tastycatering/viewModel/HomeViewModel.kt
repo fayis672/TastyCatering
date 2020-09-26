@@ -27,15 +27,15 @@ class HomeViewModel @ViewModelInject constructor(
         viewModelScope.launch {
             if (networkHelper.isNetworkConnected()){
 
-               firebaseRepository.getFood().addSnapshotListener { snapshot, firestoreException ->
+                firebaseRepository.getFood().addSnapshotListener { snapshot, firestoreException ->
 
-                   firestoreException?.let {
-                       Log.e("error","fireerror")
-                   }
-                   snapshot?.let {
-                       foodList.value= it.toObjects(Food::class.java)
-                   }
-               }
+                    firestoreException?.let {
+                        Log.e("error","fireerror")
+                    }
+                    snapshot?.let {
+                        foodList.value= it.toObjects(Food::class.java)
+                    }
+                }
             }
         }
     }

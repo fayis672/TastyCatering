@@ -20,7 +20,17 @@
     <string name="home">Home</string>
     <string name="my_cart">My Cart</string>
     <string name="quantity">Quantity</string>
-    <string name="kg">Kg</string>
     <string name="per_person">Per Person</string>
     <string name="address">Address</string>
+    <string name="date_and_time_to_deliver">Date And Time to Deliver</string>
+    <string name="set_time">Set Time</string>
+    <string name="house_name">House Name</string>
+    <string name="local_area_street_name">Local Area/Street Name</string>
+    <string name="city_name">City Name</string>
+    <string name="pincode">Pincode</string>
+    <string name="district">District</string>
+    <string name="state">State</string>
+    <string name="mobile_no">Mobile No</string>
+    <string name="save">Save</string>
+    <string name="alternate_mobile_no">Alternate Mobile No</string>
 </resources>
