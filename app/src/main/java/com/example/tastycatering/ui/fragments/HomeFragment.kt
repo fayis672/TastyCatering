@@ -48,19 +48,26 @@ class HomeFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         viewModel.getFoodList()
-        viewModel.foodList.observe(viewLifecycleOwner, Observer { foodList->
+        viewModel.error.observe(viewLifecycleOwner, Observer {error->
+            if (!error){
+                viewModel.foodList.observe(viewLifecycleOwner, Observer { foodList->
 
-            if (foodList.isNotEmpty()){
-                re_food.also {
-                    it.layoutManager = LinearLayoutManager(requireContext())
-                    it.setHasFixedSize(true)
-                    it.adapter = FoodReAdapter(foodList)
-                }
+                    if (foodList.isNotEmpty()){
+                        re_food.also {
+                            it.layoutManager = LinearLayoutManager(requireContext())
+                            it.setHasFixedSize(true)
+                            it.adapter = FoodReAdapter(foodList)
+                        }
+                    }else{
+                        Toast.makeText(context,"empty list",Toast.LENGTH_LONG).show()
+                    }
+
+                })
             }else{
-                Toast.makeText(context,"empty list",Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(),"Something Went Wrong",Toast.LENGTH_LONG).show()
             }
-
         })
+
 
     }
 

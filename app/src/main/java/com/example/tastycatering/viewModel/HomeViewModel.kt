@@ -21,6 +21,7 @@ class HomeViewModel @ViewModelInject constructor(
 ) :ViewModel() {
 
     val foodList:MutableLiveData<List<Food>> = MutableLiveData()
+    val error:MutableLiveData<Boolean> = MutableLiveData()
 
 
     fun getFoodList(){
@@ -31,9 +32,11 @@ class HomeViewModel @ViewModelInject constructor(
 
                     firestoreException?.let {
                         Log.e("error","fireerror")
+                        error.value= true
                     }
                     snapshot?.let {
                         foodList.value= it.toObjects(Food::class.java)
+                        error.value=false
                     }
                 }
             }

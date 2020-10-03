@@ -8,7 +8,11 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.example.tastycatering.R
 import com.example.tastycatering.databinding.FragmentAddressBinding
 import com.example.tastycatering.viewModel.OrderViewModel
@@ -45,6 +49,17 @@ class AddressFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        viewModel.errorSaveAddress.observe(viewLifecycleOwner, Observer {error->
+            if (!error){
+                Toast.makeText(requireContext(),"address saved",Toast.LENGTH_LONG).show()
+                val dir = AddressFragmentDirections.actionAddressFragmentToOrderFragment()
+                val nav = findNavController()
+                nav.navigate(dir)
+            }else{
+                Toast.makeText(requireContext(),"address not saved",Toast.LENGTH_LONG).show()
+            }
+        })
 
     }
 

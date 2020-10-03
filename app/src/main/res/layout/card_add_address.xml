@@ -9,6 +9,7 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/add_address_card"
         android:clickable="true"
+        app:cardElevation="5dp"
         android:layout_margin="10dp"
         android:layout_width="170dp"
         android:layout_height="200dp"

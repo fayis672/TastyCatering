@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_homeFragment_to_myCartFragment"
             app:destination="@id/myCartFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_orderActivity"
+            app:destination="@id/orderActivity" />
     </fragment>
     <fragment
         android:id="@+id/foodDetailsDialogFragment"
@@ -52,5 +55,15 @@
         android:name="com.example.tastycatering.ui.fragments.MyOrdersFragment"
         android:label="fragment_my_orders"
         tools:layout="@layout/fragment_my_orders" />
+    <activity
+        android:id="@+id/orderActivity"
+        android:name="com.example.tastycatering.ui.activity.OrderActivity"
+        android:label="OrderActivity"
+        tools:layout="@layout/activity_order">
+        <argument
+            android:name="food_id"
+            app:argType="string"
+            android:defaultValue="null" />
+    </activity>
 
 </navigation>

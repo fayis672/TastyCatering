@@ -3,12 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="address"
+            type="String" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/address_card"
         android:clickable="true"
+        app:cardElevation="5dp"
         android:layout_margin="10dp"
         android:layout_width="170dp"
         android:layout_height="200dp"
@@ -26,8 +29,8 @@
                 android:layout_margin="10dp"
                 android:lineSpacingExtra="10dp"
                 android:gravity="center|start"
-                android:text="Thekkethil hoser karuvarakubdu kuttahi malappuram kerala pin 676523"
-                android:textSize="17sp"
+                android:text="@{address}"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

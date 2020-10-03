@@ -35,12 +35,19 @@ class FoodReAdapter(private val foodList: List<Food>) : RecyclerView.Adapter<Foo
             val nav =  Navigation.findNavController(holder.foodCardBinding.root)
             nav.navigate(dir)
         }
-        holder.foodCardBinding.btnBookNow.setOnClickListener {
-            holder.foodCardBinding.root.context.startActivity(
-                Intent(holder.foodCardBinding.root.context,OrderActivity::class.java).apply
-             {
 
-             })
+        holder.foodCardBinding.btnBookNow.setOnClickListener {
+
+            val dir = foodList[position].food_id?.let { food_id ->
+                HomeFragmentDirections.actionHomeFragmentToOrderActivity(
+                    food_id
+                )
+            }
+            val nav = Navigation.findNavController(holder.foodCardBinding.root)
+            if (dir != null) {
+                nav.navigate(dir)
+            }
+
         }
 
         holder.foodCardBinding.btnAddToCart.setOnClickListener {

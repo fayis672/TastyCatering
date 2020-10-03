@@ -18,5 +18,9 @@
         android:id="@+id/addressFragment"
         android:name="com.example.tastycatering.ui.fragments.AddressFragment"
         android:label="AddressFragment"
-        tools:layout="@layout/fragment_address"/>
+        tools:layout="@layout/fragment_address">
+        <action
+            android:id="@+id/action_addressFragment_to_orderFragment"
+            app:destination="@id/orderFragment" />
+    </fragment>
 </navigation>
