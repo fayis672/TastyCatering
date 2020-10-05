@@ -41,7 +41,6 @@ class OrderFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-
         viewmodel.getFoodData(args.foodId)
         viewmodel.getAddress()
         viewmodel.errorGetAddress.observe(viewLifecycleOwner, Observer { error->

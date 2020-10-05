@@ -8,5 +8,6 @@ data class Order(
     val unit:String?,
     val qty:String?,
     val date_time:Date?,
-    val address: Address?
+    val address: Address?,
+    val total_price:Int
 )

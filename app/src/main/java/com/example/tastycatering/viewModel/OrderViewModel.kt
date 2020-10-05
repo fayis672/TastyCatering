@@ -31,6 +31,8 @@ class OrderViewModel @ViewModelInject constructor(
     val mobileNo:MutableLiveData<String> = MutableLiveData()
     val alterMobileNo:MutableLiveData<String> = MutableLiveData()
 
+    val selectedChip:MutableLiveData<Int> = MutableLiveData()
+
     val order:MutableLiveData<Order> = MutableLiveData()
     private val _errorAddress:MutableLiveData<ErrorAddress> = MutableLiveData(
         ErrorAddress(
@@ -40,8 +42,8 @@ class OrderViewModel @ViewModelInject constructor(
     val addressList:MutableLiveData<List<Address>> = MutableLiveData()
     val errorSaveAddress:MutableLiveData<Boolean> = MutableLiveData()
     val errorGetAddress:MutableLiveData<Boolean> = MutableLiveData(false)
-    val food:MutableLiveData<Food> = MutableLiveData()
 
+    val food:MutableLiveData<Food> = MutableLiveData()
     val qty:MutableLiveData<Int> = MutableLiveData()
 
     val errorAddress:LiveData<ErrorAddress>  get() = _errorAddress
@@ -102,6 +104,7 @@ class OrderViewModel @ViewModelInject constructor(
                       snapshot.let {
                           if (it != null && !it.isEmpty) {
                                 qty.value = it.toObjects(Food::class.java)[0].min_kg
+                              food.value = it.toObjects(Food::class.java)[0]
                           }
                       }
                       e.let {
@@ -115,12 +118,22 @@ class OrderViewModel @ViewModelInject constructor(
 
     fun incQty(){
         viewModelScope.launch {
-
             if (networkHelper.isNetworkConnected()){
-                qty.value?.plus(1)
+                qty.value = qty.value?.plus(1)
             }
-
         }
+    }
+
+    fun decQty(){
+        viewModelScope.launch {
+            if (networkHelper.isNetworkConnected()){
+                if (qty.value!! > food.value?.min_kg!!){
+                    qty.value = qty.value?.minus(1)
+                }
+            }
+        }
+
+
     }
 
     private fun addressValidation():Boolean{
@@ -179,7 +192,7 @@ class OrderViewModel @ViewModelInject constructor(
                 _errorAddress.value = _errorAddress.value!!.copy(mobile_no = "Please enter mobile no")
                 return false
             }
-            (pincode.value?:"").length<10 -> {
+            (mobileNo.value?:"").length<10 -> {
                 _errorAddress.value = _errorAddress.value!!.copy(mobile_no = "Mobile no is not valid")
                 return false
             }
@@ -193,7 +206,7 @@ class OrderViewModel @ViewModelInject constructor(
                 _errorAddress.value = _errorAddress.value!!.copy(alter_mobile_no = "Please enter Mobile no")
                 return false
             }
-            (pincode.value?:"").length<6 -> {
+            (mobileNo.value?:"").length<10 -> {
                 _errorAddress.value = _errorAddress.value!!.copy(alter_mobile_no = "Mobile no is not valid")
                 return false
             }
@@ -205,6 +218,10 @@ class OrderViewModel @ViewModelInject constructor(
 
 
         return true
+    }
+
+    fun placeOrder(){
+        Log.w("selected chip",selectedChip.value.toString())
     }
 
 
