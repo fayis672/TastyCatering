@@ -1,10 +1,13 @@
 package com.example.tastycatering.util
 
+import android.widget.RadioGroup
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
+import com.example.tastycatering.R
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.android.synthetic.main.fragment_order.view.*
 
 object BindingAdapter {
     @BindingAdapter("app:errorText")
@@ -27,18 +30,20 @@ object BindingAdapter {
         return view.checkedChipId
     }
 
-    @BindingAdapter("app:checkedChipIdAttrChanged")
+    @BindingAdapter(value = ["app:checkedChipIdAttrChanged"],requireAll = false)
     @JvmStatic
     fun setListeners(
-        view: ChipGroup,
-        attrChange:InverseBindingListener
+        view: ChipGroup?,
+        attrChange:InverseBindingListener?
         ){
 
-            view.setOnCheckedChangeListener { group, checkedId ->
+        if (attrChange!=null){
+            view?.setOnCheckedChangeListener { group, checkedId ->
                 attrChange.onChange()
             }
-
         }
+        }
+
 
 
     }

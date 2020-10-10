@@ -7,14 +7,21 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.tastycatering.R
 import com.example.tastycatering.data.model.Address
+import com.example.tastycatering.data.model.Date
 import com.example.tastycatering.data.model.ErrorAddress
 import com.example.tastycatering.data.model.Food
 import com.example.tastycatering.data.model.Order
 import com.example.tastycatering.data.repositry.FirebaseRepository
 import com.example.tastycatering.util.NetworkHelper
 import kotlinx.coroutines.launch
-import java.lang.reflect.Array.get
+import java.security.Timestamp
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.util.*
+import java.util.logging.SimpleFormatter
 
 class OrderViewModel @ViewModelInject constructor(
     private val networkHelper: NetworkHelper,
@@ -33,10 +40,10 @@ class OrderViewModel @ViewModelInject constructor(
 
     val selectedChip:MutableLiveData<Int> = MutableLiveData()
 
-    val order:MutableLiveData<Order> = MutableLiveData()
     private val _errorAddress:MutableLiveData<ErrorAddress> = MutableLiveData(
         ErrorAddress(
-        null,null,null,null,null,null,null,null
+        null,null,null,
+            null,null,null,null,null
         ))
 
     val addressList:MutableLiveData<List<Address>> = MutableLiveData()
@@ -44,7 +51,13 @@ class OrderViewModel @ViewModelInject constructor(
     val errorGetAddress:MutableLiveData<Boolean> = MutableLiveData(false)
 
     val food:MutableLiveData<Food> = MutableLiveData()
-    val qty:MutableLiveData<Int> = MutableLiveData()
+    val qty:MutableLiveData<String> = MutableLiveData()
+
+    val order:MutableLiveData<Order> = MutableLiveData()
+    val date:MutableLiveData<Date> = MutableLiveData()
+    val dateTxt:MutableLiveData<String> = MutableLiveData()
+    val timeTxt:MutableLiveData<String> = MutableLiveData("Set Time")
+
 
     val errorAddress:LiveData<ErrorAddress>  get() = _errorAddress
 
@@ -103,7 +116,7 @@ class OrderViewModel @ViewModelInject constructor(
                   .addSnapshotListener { snapshot, e ->
                       snapshot.let {
                           if (it != null && !it.isEmpty) {
-                                qty.value = it.toObjects(Food::class.java)[0].min_kg
+                                qty.value = it.toObjects(Food::class.java)[0].min_kg.toString()
                               food.value = it.toObjects(Food::class.java)[0]
                           }
                       }
@@ -119,7 +132,7 @@ class OrderViewModel @ViewModelInject constructor(
     fun incQty(){
         viewModelScope.launch {
             if (networkHelper.isNetworkConnected()){
-                qty.value = qty.value?.plus(1)
+                qty.value = qty.value?.toInt()?.plus(1).toString()
             }
         }
     }
@@ -127,8 +140,8 @@ class OrderViewModel @ViewModelInject constructor(
     fun decQty(){
         viewModelScope.launch {
             if (networkHelper.isNetworkConnected()){
-                if (qty.value!! > food.value?.min_kg!!){
-                    qty.value = qty.value?.minus(1)
+                if (qty.value!!.toInt() > food.value?.min_kg!!){
+                    qty.value = qty.value?.toInt()?.minus(1).toString()
                 }
             }
         }
@@ -219,6 +232,37 @@ class OrderViewModel @ViewModelInject constructor(
 
         return true
     }
+
+    fun setChip(){
+        selectedChip.value = R.id.chip_kg
+    }
+
+    fun setDate(year:Int?, month:Int?, day:Int?,hour:Int?, minute:Int?){
+
+        viewModelScope.launch {
+            if (networkHelper.isNetworkConnected()){
+                date.value = Date(year,month,day,hour,minute)
+
+                if(year!=null && month!=null && day!=null){
+                    val c = Calendar.getInstance()
+                    c.set(Calendar.YEAR,year)
+                    c.set(Calendar.MONTH,month)
+                    c.set(Calendar.DAY_OF_MONTH,day)
+                    val dateString= DateFormat.getDateInstance(DateFormat.FULL).format(c.time).toString()
+                    dateTxt.postValue(dateString)
+                }
+
+                if (hour!=null && minute!=null){
+                    val c = Calendar.getInstance()
+                    c.set(Calendar.HOUR,hour)
+                    c.set(Calendar.MINUTE,minute)
+                    timeTxt.value = DateFormat.getDateInstance(DateFormat.SHORT).format(c.time).toString()
+
+                }
+            }
+        }
+    }
+
 
     fun placeOrder(){
         Log.w("selected chip",selectedChip.value.toString())

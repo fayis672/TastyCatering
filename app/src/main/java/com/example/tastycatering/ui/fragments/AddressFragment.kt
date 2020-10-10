@@ -53,9 +53,7 @@ class AddressFragment : Fragment() {
         viewModel.errorSaveAddress.observe(viewLifecycleOwner, Observer {error->
             if (!error){
                 Toast.makeText(requireContext(),"address saved",Toast.LENGTH_LONG).show()
-                val dir = AddressFragmentDirections.actionAddressFragmentToOrderFragment()
-                val nav = findNavController()
-                nav.navigate(dir)
+                findNavController().popBackStack()
             }else{
                 Toast.makeText(requireContext(),"address not saved",Toast.LENGTH_LONG).show()
             }

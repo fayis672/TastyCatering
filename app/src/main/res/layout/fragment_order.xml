@@ -7,6 +7,9 @@
         <variable
             name="vmodel"
             type="com.example.tastycatering.viewModel.OrderViewModel" />
+        <variable
+            name="datedialog"
+            type="com.example.tastycatering.ui.dialogs.DatePickerDialog" />
     </data>
 
     <ScrollView
@@ -37,6 +40,7 @@
                 android:layout_height="200dp"
                 android:layout_marginHorizontal="20dp"
                 app:cardCornerRadius="20dp"
+                app:cardElevation="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/materialTextView4">
@@ -110,7 +114,7 @@
                         android:layout_marginStart="10dp"
                         android:fontFamily="@font/baloo_da"
                         android:gravity="center"
-                        android:text="@{vmodel.qty.toString()}"
+                        android:text="@{vmodel.qty}"
                         android:textSize="40sp"
                         app:layout_constraintBottom_toBottomOf="@+id/btn_minus_qty"
                         app:layout_constraintEnd_toStartOf="@+id/btn_add_qty"
@@ -158,7 +162,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/icon_calender"
-                app:layout_constraintTop_toTopOf="@+id/icon_calender" />
+                app:layout_constraintTop_toTopOf="@+id/icon_calender"
+                android:focusable="true" />
 
             <ImageView
                 android:id="@+id/icon_calender"
@@ -177,7 +182,7 @@
                 android:id="@+id/materialTextView6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Set Date"
+                android:text="@{vmodel.dateTxt}"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="@+id/icon_calender"
                 app:layout_constraintStart_toStartOf="@+id/icon_calender"
@@ -186,7 +191,7 @@
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/set_time"
+                android:text="@{vmodel.timeTxt}"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="@+id/icon_clock"
                 app:layout_constraintStart_toStartOf="@+id/icon_clock"

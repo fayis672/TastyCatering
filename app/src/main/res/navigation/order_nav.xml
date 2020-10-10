@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/order_nav"
-    app:startDestination="@id/orderFragment">
+    app:startDestination="@id/orderFragment"
+    tools:ignore="UnusedNavigation">
 
     <fragment
         android:id="@+id/orderFragment"
@@ -13,6 +14,7 @@
         <action
             android:id="@+id/action_orderFragment_to_addressFragment"
             app:destination="@id/addressFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/addressFragment"
@@ -23,4 +25,5 @@
             android:id="@+id/action_addressFragment_to_orderFragment"
             app:destination="@id/orderFragment" />
     </fragment>
+
 </navigation>
