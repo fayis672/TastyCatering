@@ -55,7 +55,7 @@ class OrderViewModel @ViewModelInject constructor(
 
     val order:MutableLiveData<Order> = MutableLiveData()
     val date:MutableLiveData<Date> = MutableLiveData()
-    val dateTxt:MutableLiveData<String> = MutableLiveData()
+    val dateTxt:MutableLiveData<String> = MutableLiveData("Set Date")
     val timeTxt:MutableLiveData<String> = MutableLiveData("Set Time")
 
 
@@ -237,6 +237,7 @@ class OrderViewModel @ViewModelInject constructor(
         selectedChip.value = R.id.chip_kg
     }
 
+
     fun setDate(year:Int?, month:Int?, day:Int?,hour:Int?, minute:Int?){
 
         viewModelScope.launch {
@@ -249,14 +250,14 @@ class OrderViewModel @ViewModelInject constructor(
                     c.set(Calendar.MONTH,month)
                     c.set(Calendar.DAY_OF_MONTH,day)
                     val dateString= DateFormat.getDateInstance(DateFormat.FULL).format(c.time).toString()
-                    dateTxt.postValue(dateString)
+                    dateTxt.value = dateString
                 }
 
                 if (hour!=null && minute!=null){
                     val c = Calendar.getInstance()
                     c.set(Calendar.HOUR,hour)
                     c.set(Calendar.MINUTE,minute)
-                    timeTxt.value = DateFormat.getDateInstance(DateFormat.SHORT).format(c.time).toString()
+                    timeTxt.value = SimpleDateFormat("h:mm a", Locale.CHINA).format(c.time)
 
                 }
             }

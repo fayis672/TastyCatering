@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -28,7 +29,7 @@ import kotlinx.android.synthetic.main.fragment_order.*
 @AndroidEntryPoint
 class OrderFragment : Fragment() {
 
-    private val viewmodel: OrderViewModel by viewModels()
+    private val viewmodel: OrderViewModel by activityViewModels()
     private val args:OrderActivityArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +45,6 @@ class OrderFragment : Fragment() {
         val v = FragmentOrderBinding.inflate(inflater,container,false)
         v.lifecycleOwner = viewLifecycleOwner
         v.vmodel = viewmodel
-        v.chipKg.isChecked
         v.btnType.setOnClickListener {
             val dialog = QtyDialog()
             activity?.supportFragmentManager?.let { it1 -> dialog.show(it1,"qtydialog") }
