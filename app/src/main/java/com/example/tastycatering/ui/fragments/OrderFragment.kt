@@ -1,5 +1,6 @@
 package com.example.tastycatering.ui.fragments
 
+import android.app.usage.StorageStats
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -13,6 +14,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.selection.SelectionPredicates
+import androidx.recyclerview.selection.SelectionTracker
+import androidx.recyclerview.selection.StableIdKeyProvider
+import androidx.recyclerview.selection.StorageStrategy
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tastycatering.R
 import com.example.tastycatering.adapter.AddressReAdapter
@@ -21,6 +26,7 @@ import com.example.tastycatering.ui.activity.OrderActivityArgs
 import com.example.tastycatering.ui.dialogs.DatePickerDialog
 import com.example.tastycatering.ui.dialogs.QtyDialog
 import com.example.tastycatering.ui.dialogs.TimePickerDialog
+import com.example.tastycatering.util.MyItemDetailsLookUp
 import com.example.tastycatering.viewModel.OrderViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.dialog.MaterialDialogs
@@ -32,9 +38,9 @@ class OrderFragment : Fragment() {
     private val viewmodel: OrderViewModel by activityViewModels()
     private val args:OrderActivityArgs by navArgs()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
 
     }
 
@@ -66,16 +72,26 @@ class OrderFragment : Fragment() {
         viewmodel.getFoodData(args.foodId)
         viewmodel.setChip()
         viewmodel.getAddress()
+        re_address.also {
+            val layoutManager = LinearLayoutManager(requireContext())
+            layoutManager.orientation = LinearLayoutManager.HORIZONTAL
+            it.layoutManager = layoutManager
+            it.setHasFixedSize(true)
+        }
         viewmodel.errorGetAddress.observe(viewLifecycleOwner, Observer { error->
             if (!error){
                 viewmodel.addressList.observe(viewLifecycleOwner, Observer {addressList->
-                    re_address.also {
-                        val layoutManager = LinearLayoutManager(requireContext())
-                        layoutManager.orientation = LinearLayoutManager.HORIZONTAL
-                        it.layoutManager = layoutManager
-                        it.setHasFixedSize(true)
-                        it.adapter = AddressReAdapter(addressList)
-                    }
+                    val adapter = AddressReAdapter(addressList)
+                    re_address.adapter = adapter
+                    adapter.tracker = SelectionTracker.Builder<Long>(
+                        "address_selected",
+                        re_address,
+                        StableIdKeyProvider(re_address),
+                        MyItemDetailsLookUp(re_address),
+                        StorageStrategy.createLongStorage()
+                    ).withSelectionPredicate(
+                        SelectionPredicates.createSelectSingleAnything()
+                    ).build()
                 })
 
             }

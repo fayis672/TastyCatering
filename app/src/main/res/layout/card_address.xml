@@ -12,6 +12,7 @@
         android:id="@+id/address_card"
         android:clickable="true"
         app:cardElevation="5dp"
+        android:background="@drawable/bg_address_card"
         android:layout_margin="10dp"
         android:layout_width="170dp"
         android:layout_height="200dp"
@@ -20,7 +21,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_address_card">
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text_address"
