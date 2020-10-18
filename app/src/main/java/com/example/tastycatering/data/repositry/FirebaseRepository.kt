@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.example.tastycatering.data.model.Address
 import com.example.tastycatering.data.model.Food
+import com.example.tastycatering.data.model.Order
 import com.example.tastycatering.data.model.Response
 import com.example.tastycatering.viewModel.HomeViewModel
 import com.google.android.gms.tasks.OnFailureListener
@@ -50,6 +51,16 @@ class FirebaseRepository @Inject constructor(
 
     fun getFoodData(foodId:String)=
       firestore.collection("food").whereEqualTo("food_id",foodId)
+
+    fun addOrder(order: Order){
+        firestore.collection("orders")
+            .add(order).addOnFailureListener{
+            Log.w("error",it.toString())
+        }
+            .addOnSuccessListener {
+                Log.d("ok","Document Written with id ${it.id}")
+            }
+    }
 
     }
 

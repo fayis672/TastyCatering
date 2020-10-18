@@ -8,20 +8,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tastycatering.R
-import com.example.tastycatering.data.model.Address
+import com.example.tastycatering.data.model.*
 import com.example.tastycatering.data.model.Date
-import com.example.tastycatering.data.model.ErrorAddress
-import com.example.tastycatering.data.model.Food
-import com.example.tastycatering.data.model.Order
 import com.example.tastycatering.data.repositry.FirebaseRepository
 import com.example.tastycatering.util.NetworkHelper
 import kotlinx.coroutines.launch
-import java.security.Timestamp
 import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.*
-import java.util.logging.SimpleFormatter
 
 class OrderViewModel @ViewModelInject constructor(
     private val networkHelper: NetworkHelper,
@@ -54,10 +48,12 @@ class OrderViewModel @ViewModelInject constructor(
     val qty:MutableLiveData<String> = MutableLiveData()
 
     val order:MutableLiveData<Order> = MutableLiveData()
-    val date:MutableLiveData<Date> = MutableLiveData()
+    private val date:MutableLiveData<Date> = MutableLiveData()
     val dateTxt:MutableLiveData<String> = MutableLiveData("Set Date")
     val timeTxt:MutableLiveData<String> = MutableLiveData("Set Time")
-
+    private val selectedAddress:MutableLiveData<Address> = MutableLiveData()
+    val totalPrice:MutableLiveData<Double> = MutableLiveData()
+    val errorOrder:MutableLiveData<ErrorOrder> = MutableLiveData()
 
     val errorAddress:LiveData<ErrorAddress>  get() = _errorAddress
 
@@ -118,6 +114,7 @@ class OrderViewModel @ViewModelInject constructor(
                           if (it != null && !it.isEmpty) {
                                 qty.value = it.toObjects(Food::class.java)[0].min_kg.toString()
                               food.value = it.toObjects(Food::class.java)[0]
+                              setPrice()
                           }
                       }
                       e.let {
@@ -133,6 +130,7 @@ class OrderViewModel @ViewModelInject constructor(
         viewModelScope.launch {
             if (networkHelper.isNetworkConnected()){
                 qty.value = qty.value?.toInt()?.plus(1).toString()
+                setPrice()
             }
         }
     }
@@ -142,6 +140,7 @@ class OrderViewModel @ViewModelInject constructor(
             if (networkHelper.isNetworkConnected()){
                 if (qty.value!!.toInt() > food.value?.min_kg!!){
                     qty.value = qty.value?.toInt()?.minus(1).toString()
+                    setPrice()
                 }
             }
         }
@@ -237,6 +236,10 @@ class OrderViewModel @ViewModelInject constructor(
         selectedChip.value = R.id.chip_kg
     }
 
+    fun setPrice(){
+        totalPrice.value = qty.value?.toDouble()?.times(food.value?.price!!)
+        Log.w("food",food.value.toString())
+    }
 
     fun setDate(year:Int?, month:Int?, day:Int?,hour:Int?, minute:Int?){
 
@@ -264,10 +267,63 @@ class OrderViewModel @ViewModelInject constructor(
         }
     }
 
-
-    fun placeOrder(){
-        Log.w("selected chip",selectedChip.value.toString())
+    fun setAddress(address: Address?){
+       selectedAddress.value = address
+        Log.w("okkkkk",address?.house_name+"got")
     }
 
+    fun orderValidation():Boolean{
+       if ((qty.value?:"").isEmpty()){
+           errorOrder.value = errorOrder.value?.copy(qty_check = false,msg = "Quantity cannot be empty")
+           return false
+       }else
+           errorOrder.value = errorOrder.value?.copy(qty_check = true,msg = null)
+
+        if ((dateTxt.value?:"").isEmpty()){
+            errorOrder.value = errorOrder.value?.copy(date_Check = false,msg = "Select Date")
+            return false
+        }else
+            errorOrder.value = errorOrder.value?.copy(date_Check = true,msg = null)
+
+        if ((timeTxt.value?:"").isEmpty()){
+            errorOrder.value = errorOrder.value?.copy(date_Check = false,msg = "Select Time")
+            return false
+        }else
+            errorOrder.value = errorOrder.value?.copy(date_Check = true,msg = null)
+
+        if ((selectedAddress.value?.city_name ?:"").isEmpty()){
+            errorOrder.value = errorOrder.value?.copy(qty_check = false,msg = "Quantity cannot be empty")
+            return false
+        }else
+            errorOrder.value = errorOrder.value?.copy(qty_check = true,msg = null)
+
+        return true
+    }
+
+    fun placeOrder(){
+        viewModelScope.launch {
+            if (networkHelper.isNetworkConnected()){
+
+                if (orderValidation()){
+                    val unit = when (selectedChip.value) {
+                        R.id.chip_kg -> "kg"
+                        else -> "per person"
+                    }
+
+                    val orderID = UUID.randomUUID().toString()+firebaseRepository.getUser()
+                    firebaseRepository.addOrder(
+                        Order(
+                            orderID,
+                            firebaseRepository.getUser(),
+                            food.value?.food_id,
+                            unit,qty.value,date.value,
+                            selectedAddress.value,totalPrice.value!!
+
+                        ))
+                }
+            }
+        }
+
+    }
 
 }

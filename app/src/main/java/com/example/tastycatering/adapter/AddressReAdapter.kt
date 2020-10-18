@@ -14,11 +14,12 @@ import com.example.tastycatering.databinding.CardAddAddressBinding
 import com.example.tastycatering.databinding.CardAddressBinding
 import com.example.tastycatering.ui.fragments.OrderFragmentDirections
 
-class AddressReAdapter(
-    private val addressList:List<Address>)
+class AddressReAdapter
     : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
      var tracker :SelectionTracker<Long>? = null
+     var addressList:List<Address> = listOf()
+
     companion object{
         const val ADDRESS_VIEW = 0
         const val ADDRESS_ADD_VIEW = 1
@@ -53,17 +54,20 @@ class AddressReAdapter(
 
             (holder as AddressCardHolder)
 
-            tracker?.let {
-                holder.onSelected(addressList[position],it.isSelected(position.toLong()))
-            }
 
                 holder.addressBinding.address =
+                    addressList[position].pincode.toString()+" "+
                     addressList[position].house_name+" "+
                             addressList[position].local_area+" "+
                             addressList[position].city_name+" "+
                             addressList[position].district+" "+
                             addressList[position].state+" "+
                             addressList[position].mobile_no+" "
+
+            tracker?.let {
+                holder.addressBinding.btnSelect.isChecked = it.isSelected(position.toLong())
+            }
+
         }else{
 
         (holder as AddAddressCardHolder)
@@ -97,12 +101,6 @@ class AddressReAdapter(
         object : ItemDetailsLookup.ItemDetails<Long>(){
             override fun getPosition(): Int = adapterPosition
             override fun getSelectionKey(): Long?  = itemId
-            override fun inSelectionHotspot(e: MotionEvent):Boolean = true
-
-        }
-
-        fun onSelected(address:Address,isSelected:Boolean){
-            itemView.isActivated  = isSelected
         }
 
     }

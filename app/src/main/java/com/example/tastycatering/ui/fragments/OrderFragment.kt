@@ -81,9 +81,10 @@ class OrderFragment : Fragment() {
         viewmodel.errorGetAddress.observe(viewLifecycleOwner, Observer { error->
             if (!error){
                 viewmodel.addressList.observe(viewLifecycleOwner, Observer {addressList->
-                    val adapter = AddressReAdapter(addressList)
+                    val adapter = AddressReAdapter()
+                    adapter.addressList = addressList
                     re_address.adapter = adapter
-                    adapter.tracker = SelectionTracker.Builder<Long>(
+                    val tracker = SelectionTracker.Builder<Long>(
                         "address_selected",
                         re_address,
                         StableIdKeyProvider(re_address),
@@ -92,7 +93,26 @@ class OrderFragment : Fragment() {
                     ).withSelectionPredicate(
                         SelectionPredicates.createSelectSingleAnything()
                     ).build()
+                    adapter.tracker = tracker
+
+                    tracker.addObserver(
+                        object : SelectionTracker.SelectionObserver<Long>(){
+                            override fun onSelectionChanged() {
+                                super.onSelectionChanged()
+                                if (!tracker.selection.isEmpty){
+                                    val selectedAddress = tracker.selection.map {
+                                        adapter.addressList[it.toInt()]
+                                    }[0]
+                                    viewmodel.setAddress(selectedAddress)
+                                }
+
+
+                            }
+                        }
+                    )
                 })
+
+
 
             }
         })

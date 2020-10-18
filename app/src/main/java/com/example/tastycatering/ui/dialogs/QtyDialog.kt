@@ -31,6 +31,7 @@ class QtyDialog : DialogFragment() {
                 .setPositiveButton(R.string.ok
                 ) { dialog, _ ->
                     dialog.dismiss()
+                    viewModel.setPrice()
                 }
                 .setNegativeButton(R.string.fui_cancel) { dialog, _ ->
                     dialog.dismiss()
