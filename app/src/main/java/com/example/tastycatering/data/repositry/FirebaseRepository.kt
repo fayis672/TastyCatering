@@ -52,14 +52,17 @@ class FirebaseRepository @Inject constructor(
     fun getFoodData(foodId:String)=
       firestore.collection("food").whereEqualTo("food_id",foodId)
 
-    fun addOrder(order: Order){
+    fun addOrder(order: Order):Boolean{
         firestore.collection("orders")
             .add(order).addOnFailureListener{
             Log.w("error",it.toString())
+                error.value = true
         }
             .addOnSuccessListener {
                 Log.d("ok","Document Written with id ${it.id}")
+                error.value = false
             }
+        return error.value!!
     }
 
     }

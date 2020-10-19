@@ -1,6 +1,7 @@
 package com.example.tastycatering.util
 
 import android.widget.RadioGroup
+import android.widget.ToggleButton
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
@@ -44,6 +45,11 @@ object BindingAdapter {
         }
         }
 
+    @BindingAdapter("app:checkIfNotNull")
+    @JvmStatic
+    fun setCheckIfNotNull(view: ToggleButton,value: String?){
+        view.isChecked = value!=null
+    }
 
 
     }

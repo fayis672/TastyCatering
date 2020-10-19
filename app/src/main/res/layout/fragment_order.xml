@@ -41,9 +41,10 @@
                 android:layout_marginStart="10dp"
                 android:clickable="false"
                 android:background="@drawable/bg_check_icon"
+                android:visibility="gone"
                 android:textOff=""
                 android:textOn=""
-                android:checked="@{vmodel.errorOrder.qty_check}"
+                app:checkIfNotNull="@{vmodel.qty.toString()}"
                 app:layout_constraintBottom_toBottomOf="@+id/materialTextView4"
                 app:layout_constraintStart_toEndOf="@+id/materialTextView4"
                 app:layout_constraintTop_toTopOf="@+id/materialTextView4" />
@@ -176,7 +177,8 @@
                 android:background="@drawable/bg_check_icon"
                 android:textOff=""
                 android:textOn=""
-                android:checked="@{vmodel.errorOrder.date_Check}"
+                android:visibility="gone"
+                app:checkIfNotNull="@{vmodel.dateTxt}"
                 app:layout_constraintBottom_toBottomOf="@+id/materialTextView5"
                 app:layout_constraintStart_toEndOf="@+id/materialTextView5"
                 app:layout_constraintTop_toTopOf="@+id/materialTextView5" />
@@ -243,9 +245,10 @@
                 android:layout_marginStart="10dp"
                 android:clickable="false"
                 android:background="@drawable/bg_check_icon"
-                android:checked="@{vmodel.errorOrder.address_check}"
+                app:checkIfNotNull="@{vmodel.selectedAddress.house_name}"
                 android:textOff=""
                 android:textOn=""
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/materialTextView7"
                 app:layout_constraintStart_toEndOf="@+id/materialTextView7"
                 app:layout_constraintTop_toTopOf="@+id/materialTextView7" />

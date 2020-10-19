@@ -104,9 +104,8 @@ class OrderFragment : Fragment() {
                                         adapter.addressList[it.toInt()]
                                     }[0]
                                     viewmodel.setAddress(selectedAddress)
-                                }
-
-
+                                }else
+                                    viewmodel.selectedAddress.value = null
                             }
                         }
                     )
@@ -116,6 +115,22 @@ class OrderFragment : Fragment() {
 
             }
         })
+
+        viewmodel.orderError.observe(viewLifecycleOwner, Observer {
+            if (it!=null){
+                Toast.makeText(requireContext(),it,Toast.LENGTH_LONG).show()
+            }
+        })
+
+        viewmodel.errorPlaceOrder.observe(viewLifecycleOwner, Observer {
+            if (!it){
+               Toast.makeText(requireContext(),"Order Placed",Toast.LENGTH_LONG).show()
+                findNavController().popBackStack()
+            }else{
+                Toast.makeText(requireContext(),"Something went wrong",Toast.LENGTH_LONG).show()
+            }
+        })
+
 
     }
 

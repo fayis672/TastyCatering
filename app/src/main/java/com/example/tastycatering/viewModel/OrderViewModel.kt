@@ -43,17 +43,19 @@ class OrderViewModel @ViewModelInject constructor(
     val addressList:MutableLiveData<List<Address>> = MutableLiveData()
     val errorSaveAddress:MutableLiveData<Boolean> = MutableLiveData()
     val errorGetAddress:MutableLiveData<Boolean> = MutableLiveData(false)
+    val errorPlaceOrder:MutableLiveData<Boolean> = MutableLiveData()
 
     val food:MutableLiveData<Food> = MutableLiveData()
     val qty:MutableLiveData<String> = MutableLiveData()
 
     val order:MutableLiveData<Order> = MutableLiveData()
-    private val date:MutableLiveData<Date> = MutableLiveData()
+    private val date:MutableLiveData<Date> = MutableLiveData(Date(null,null,null,null,null))
     val dateTxt:MutableLiveData<String> = MutableLiveData("Set Date")
     val timeTxt:MutableLiveData<String> = MutableLiveData("Set Time")
-    private val selectedAddress:MutableLiveData<Address> = MutableLiveData()
+    val selectedAddress:MutableLiveData<Address> = MutableLiveData()
+    val status:MutableLiveData<String> = MutableLiveData("Pending")
     val totalPrice:MutableLiveData<Double> = MutableLiveData()
-    val errorOrder:MutableLiveData<ErrorOrder> = MutableLiveData()
+    val orderError:MutableLiveData<String> = MutableLiveData()
 
     val errorAddress:LiveData<ErrorAddress>  get() = _errorAddress
 
@@ -245,7 +247,8 @@ class OrderViewModel @ViewModelInject constructor(
 
         viewModelScope.launch {
             if (networkHelper.isNetworkConnected()){
-                date.value = Date(year,month,day,hour,minute)
+
+
 
                 if(year!=null && month!=null && day!=null){
                     val c = Calendar.getInstance()
@@ -254,13 +257,17 @@ class OrderViewModel @ViewModelInject constructor(
                     c.set(Calendar.DAY_OF_MONTH,day)
                     val dateString= DateFormat.getDateInstance(DateFormat.FULL).format(c.time).toString()
                     dateTxt.value = dateString
+                    date.value = date.value!!.copy(year = year,month = month,day = day)
+
                 }
 
                 if (hour!=null && minute!=null){
                     val c = Calendar.getInstance()
                     c.set(Calendar.HOUR,hour)
                     c.set(Calendar.MINUTE,minute)
-                    timeTxt.value = SimpleDateFormat("h:mm a", Locale.CHINA).format(c.time)
+                    timeTxt.value = SimpleDateFormat("h:mm a", Locale.US).format(c.time)
+                    date.value = date.value!!.copy(hour = hour,minute = minute)
+
 
                 }
             }
@@ -272,31 +279,30 @@ class OrderViewModel @ViewModelInject constructor(
         Log.w("okkkkk",address?.house_name+"got")
     }
 
-    fun orderValidation():Boolean{
+    private fun orderValidation():Boolean{
        if ((qty.value?:"").isEmpty()){
-           errorOrder.value = errorOrder.value?.copy(qty_check = false,msg = "Quantity cannot be empty")
+           orderError.value = "Quantity Cannot be empty"
            return false
        }else
-           errorOrder.value = errorOrder.value?.copy(qty_check = true,msg = null)
+           orderError.value = null
 
-        if ((dateTxt.value?:"").isEmpty()){
-            errorOrder.value = errorOrder.value?.copy(date_Check = false,msg = "Select Date")
+        if ((dateTxt.value?:"").isEmpty() || dateTxt.value == "Set Date"){
+            orderError.value = "Select Date"
             return false
         }else
-            errorOrder.value = errorOrder.value?.copy(date_Check = true,msg = null)
+            orderError.value = null
 
-        if ((timeTxt.value?:"").isEmpty()){
-            errorOrder.value = errorOrder.value?.copy(date_Check = false,msg = "Select Time")
+        if ((timeTxt.value?:"").isEmpty() || timeTxt.value == "Set Time"){
+            orderError.value = "Select Time"
             return false
         }else
-            errorOrder.value = errorOrder.value?.copy(date_Check = true,msg = null)
+            orderError.value = null
 
         if ((selectedAddress.value?.city_name ?:"").isEmpty()){
-            errorOrder.value = errorOrder.value?.copy(qty_check = false,msg = "Quantity cannot be empty")
+            orderError.value = "Select Address"
             return false
         }else
-            errorOrder.value = errorOrder.value?.copy(qty_check = true,msg = null)
-
+            orderError.value = null
         return true
     }
 
@@ -309,7 +315,6 @@ class OrderViewModel @ViewModelInject constructor(
                         R.id.chip_kg -> "kg"
                         else -> "per person"
                     }
-
                     val orderID = UUID.randomUUID().toString()+firebaseRepository.getUser()
                     firebaseRepository.addOrder(
                         Order(
@@ -317,9 +322,11 @@ class OrderViewModel @ViewModelInject constructor(
                             firebaseRepository.getUser(),
                             food.value?.food_id,
                             unit,qty.value,date.value,
-                            selectedAddress.value,totalPrice.value!!
+                            selectedAddress.value,totalPrice.value,status.value
 
-                        ))
+                        )).let {
+                        errorPlaceOrder.value = it
+                    }
                 }
             }
         }
