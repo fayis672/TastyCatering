@@ -2,8 +2,10 @@ package com.example.tastycatering.ui.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.example.tastycatering.R
@@ -16,6 +18,7 @@ class HomeActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var toolbar: Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,8 +27,11 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setUpNavigation() {
-         navController = findNavController(R.id.nav_host_fragment_container)
-         appBarConfiguration = AppBarConfiguration(navController.graph,main_drawer)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
+        navController = navHostFragment.navController
+        appBarConfiguration = AppBarConfiguration(navController.graph,main_drawer)
+        toolbar = findViewById<Toolbar>(R.id.toolbar)
+        toolbar.setupWithNavController(navController,main_drawer)
         findViewById<NavigationView>(R.id.nav_view).setupWithNavController(navController)
     }
 

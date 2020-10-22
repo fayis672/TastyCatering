@@ -38,7 +38,7 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
          val v =  FragmentHomeBinding.inflate(inflater, container, false)
          v.lifecycleOwner = viewLifecycleOwner
          return v.root
@@ -74,11 +74,11 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val collapsingLayout = view.findViewById<CollapsingToolbarLayout>(R.id.collapsing_layout)
+        //val collapsingLayout = view.findViewById<CollapsingToolbarLayout>(R.id.collapsing_layout)
         val navController = findNavController()
-        val toolbar = view.findViewById<androidx.appcompat.widget.Toolbar>(R.id.tool_bar)
+        //val toolbar = view.findViewById<androidx.appcompat.widget.Toolbar>(R.id.tool_bar)
         val appBarConfiguration = AppBarConfiguration(navController.graph,main_drawer)
-        collapsingLayout.setupWithNavController(toolbar,navController,appBarConfiguration)
+        //collapsingLayout.setupWithNavController(toolbar,navController,appBarConfiguration)
 
     }
 

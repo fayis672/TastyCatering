@@ -39,7 +39,7 @@ object BindingAdapter {
         ){
 
         if (attrChange!=null){
-            view?.setOnCheckedChangeListener { group, checkedId ->
+            view?.setOnCheckedChangeListener { _, _ ->
                 attrChange.onChange()
             }
         }

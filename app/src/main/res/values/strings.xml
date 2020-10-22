@@ -35,4 +35,9 @@
     <string name="alternate_mobile_no">Alternate Mobile No</string>
     <string name="type_quantity">Type quantity</string>
     <string name="total_price">Total Price:</string>
+    <string name="order_id">Order id:</string>
+    <string name="time">Time:</string>
+    <string name="edit_details">Edit Details</string>
+    <string name="status">Status:</string>
+    <string name="date">Date:</string>
 </resources>

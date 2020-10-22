@@ -31,12 +31,7 @@
              app:titleEnabled="false">
 
 
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/tool_bar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/colorPrimaryDark"
-                app:layout_collapseMode="pin" />
+
 
 
          </com.google.android.material.appbar.CollapsingToolbarLayout>

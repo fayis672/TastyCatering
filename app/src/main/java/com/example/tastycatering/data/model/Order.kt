@@ -1,12 +1,11 @@
 package com.example.tastycatering.data.model
 
-import java.sql.ClientInfoStatus
-import java.util.*
+
 
 data class Order(
     val order_id:String?=null,
     val user_id:String?=null,
-    val food_id:String?=null,
+    val food:Food?=null,
     val unit:String?=null,
     val qty:String?=null,
     val date_time:Date?=null,

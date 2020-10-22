@@ -24,11 +24,12 @@ class FirebaseRepository @Inject constructor(
     private val firestore = FirebaseFirestore.getInstance()
     private val user = FirebaseAuth.getInstance().currentUser
     private val error:MutableLiveData<Boolean> = MutableLiveData(false)
-    private val response:MutableLiveData<Response> = MutableLiveData(Response(null,true,null))
+    //private val response:MutableLiveData<Response> = MutableLiveData(Response(null,true,null))
+    //private var response = Response(null,true,null)
 
 
-    fun getUser() = user!!.uid
 
+    fun getUser() = user?.uid
 
     fun  getFood() :CollectionReference = firestore.collection("food")
 
@@ -47,7 +48,7 @@ class FirebaseRepository @Inject constructor(
         return error.value!!
     }
 
-    fun getAllAddress() : CollectionReference = firestore.collection("address")
+    fun getAllAddress()  = firestore.collection("address").whereEqualTo("user_id",getUser())
 
     fun getFoodData(foodId:String)=
       firestore.collection("food").whereEqualTo("food_id",foodId)
@@ -64,6 +65,9 @@ class FirebaseRepository @Inject constructor(
             }
         return error.value!!
     }
+
+    fun getUserOrders() =
+        firestore.collection("orders").whereEqualTo("user_id",getUser())
 
     }
 

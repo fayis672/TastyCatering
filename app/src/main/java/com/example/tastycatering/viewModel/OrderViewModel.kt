@@ -48,7 +48,7 @@ class OrderViewModel @ViewModelInject constructor(
     val food:MutableLiveData<Food> = MutableLiveData()
     val qty:MutableLiveData<String> = MutableLiveData()
 
-    val order:MutableLiveData<Order> = MutableLiveData()
+    //val order:MutableLiveData<Order> = MutableLiveData()
     private val date:MutableLiveData<Date> = MutableLiveData(Date(null,null,null,null,null))
     val dateTxt:MutableLiveData<String> = MutableLiveData("Set Date")
     val timeTxt:MutableLiveData<String> = MutableLiveData("Set Time")
@@ -56,6 +56,9 @@ class OrderViewModel @ViewModelInject constructor(
     val status:MutableLiveData<String> = MutableLiveData("Pending")
     val totalPrice:MutableLiveData<Double> = MutableLiveData()
     val orderError:MutableLiveData<String> = MutableLiveData()
+    val orderList:MutableLiveData<List<Order>> = MutableLiveData()
+
+    //private val response:MutableLiveData<Response> = MutableLiveData(Response(null,true,null))
 
     val errorAddress:LiveData<ErrorAddress>  get() = _errorAddress
 
@@ -90,7 +93,7 @@ class OrderViewModel @ViewModelInject constructor(
     fun getAddress(){
         viewModelScope.launch {
             if (networkHelper.isNetworkConnected()){
-                firebaseRepository.getAllAddress().whereEqualTo("user_id",firebaseRepository.getUser())
+                firebaseRepository.getAllAddress()
                     .addSnapshotListener { snapshot ,e->
                     e.let {
                         Log.e(TAG,e.toString())
@@ -315,12 +318,12 @@ class OrderViewModel @ViewModelInject constructor(
                         R.id.chip_kg -> "kg"
                         else -> "per person"
                     }
-                    val orderID = UUID.randomUUID().toString()+firebaseRepository.getUser()
+                    val orderID = UUID.randomUUID().toString()
                     firebaseRepository.addOrder(
                         Order(
                             orderID,
                             firebaseRepository.getUser(),
-                            food.value?.food_id,
+                            food.value,
                             unit,qty.value,date.value,
                             selectedAddress.value,totalPrice.value,status.value
 
@@ -331,6 +334,18 @@ class OrderViewModel @ViewModelInject constructor(
             }
         }
 
+    }
+
+    fun getUserOrder(){
+        firebaseRepository.getUserOrders().addSnapshotListener{snapshot, error ->
+            error.let {
+                Log.w(TAG,error.toString())
+            }
+
+            snapshot.let {
+                orderList.value = it?.toObjects(Order::class.java)
+            }
+        }
     }
 
 }
