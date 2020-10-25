@@ -41,12 +41,14 @@ class HomeFragment : Fragment() {
 
          val v =  FragmentHomeBinding.inflate(inflater, container, false)
          v.lifecycleOwner = viewLifecycleOwner
+         v.vmodel = viewModel
          return v.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        viewModel.getImageUrl()
         viewModel.getFoodList()
         viewModel.error.observe(viewLifecycleOwner, Observer {error->
             if (!error){
@@ -67,8 +69,6 @@ class HomeFragment : Fragment() {
                 Toast.makeText(requireContext(),"Something Went Wrong",Toast.LENGTH_LONG).show()
             }
         })
-
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -36,11 +36,6 @@ class FoodDetailsDialogFragment : Fragment() {
             viewModel.foodList.observe(viewLifecycleOwner, Observer {
                 v.food = it[args.foodPosition]
             })
-            v.dialogBtnClose.setOnClickListener {
-                val navOption = NavOptions.Builder().setPopUpTo(R.id.homeFragment,true).build()
-                val dir = FoodDetailsDialogFragmentDirections.actionFoodDetailsDialogFragmentToHomeFragment()
-                findNavController().navigate(dir,navOption)
-            }
 
         return v.root
     }

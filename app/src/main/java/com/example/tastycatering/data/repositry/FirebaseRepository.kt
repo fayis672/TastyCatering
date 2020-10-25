@@ -1,5 +1,6 @@
 package com.example.tastycatering.data.repositry
 
+import android.net.Uri
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
@@ -9,11 +10,13 @@ import com.example.tastycatering.data.model.Order
 import com.example.tastycatering.data.model.Response
 import com.example.tastycatering.viewModel.HomeViewModel
 import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import javax.inject.Inject
 
 class FirebaseRepository @Inject constructor(
@@ -22,6 +25,8 @@ class FirebaseRepository @Inject constructor(
 ){
 
     private val firestore = FirebaseFirestore.getInstance()
+    private val storageRef = FirebaseStorage.getInstance().reference
+
     private val user = FirebaseAuth.getInstance().currentUser
     private val error:MutableLiveData<Boolean> = MutableLiveData(false)
     //private val response:MutableLiveData<Response> = MutableLiveData(Response(null,true,null))
@@ -68,6 +73,9 @@ class FirebaseRepository @Inject constructor(
 
     fun getUserOrders() =
         firestore.collection("orders").whereEqualTo("user_id",getUser())
+
+    fun getImgUrl(): Task<Uri> = storageRef.child("food_img/Untitled-1.png").downloadUrl
+
 
     }
 

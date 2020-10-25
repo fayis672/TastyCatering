@@ -4,7 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
    <data>
-
+      <variable
+          name="vmodel"
+          type="com.example.tastycatering.viewModel.HomeViewModel" />
    </data>
 
    <FrameLayout
@@ -19,19 +21,32 @@
       <com.google.android.material.appbar.AppBarLayout
           android:id="@+id/appBarLayout"
           android:layout_width="match_parent"
+          android:background="@android:color/transparent"
           android:layout_height="180dp">
 
          <com.google.android.material.appbar.CollapsingToolbarLayout
              android:id="@+id/collapsing_layout"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             android:background="@color/colorPrimaryDark"
-             app:contentScrim="@color/colorPrimaryDark"
              app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
              app:titleEnabled="false">
 
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+               android:layout_margin="10dp"
+                app:cardElevation="10dp"
+               app:cardCornerRadius="20dp">
 
+               <ImageView
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   app:imgUrl="@{vmodel.mainImgUrl}"
+                   app:imgError="@{@drawable/ic_baseline_error_24}"
+                   android:scaleType="centerCrop"
+                   android:contentDescription="@string/offers_image"/>
 
+            </com.google.android.material.card.MaterialCardView>
 
 
          </com.google.android.material.appbar.CollapsingToolbarLayout>
