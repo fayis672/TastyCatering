@@ -13,9 +13,8 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="5dp"
-        app:strokeColor="@color/colorPrimary"
-        app:strokeWidth=".5dp"
+        app:cardElevation="20dp"
+        android:layout_margin="3dp"
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -49,7 +48,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@{order.food.name}"
-                android:textSize="15sp"
+                android:textSize="20sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/txt_"
                 app:layout_constraintTop_toBottomOf="@+id/txt_" />
 
@@ -68,7 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:text="@string/kg"
+                android:text="@{order.unit}"
                 android:textSize="15sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/txt_food_name"
                 app:layout_constraintStart_toEndOf="@+id/materialTextView10" />
@@ -89,6 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="Monday 23 june 2020"
+                android:textStyle="bold"
                 android:textSize="15sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/materialTextView11"
                 app:layout_constraintStart_toEndOf="@+id/materialTextView11" />
@@ -109,6 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="06:00 AM"
+                android:textStyle="bold"
                 android:textSize="15sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/materialTextView12"
                 app:layout_constraintStart_toEndOf="@+id/materialTextView12" />
@@ -129,6 +131,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="@{order.total_price.toString()}"
+                android:textStyle="bold"
                 android:textSize="15sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/materialTextView14"
                 app:layout_constraintStart_toEndOf="@+id/materialTextView14" />

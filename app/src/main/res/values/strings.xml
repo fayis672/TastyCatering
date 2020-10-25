@@ -41,4 +41,6 @@
     <string name="status">Status:</string>
     <string name="date">Date:</string>
     <string name="offers_image">Offers image</string>
+    <string name="_kg">/Kg</string>
+
 </resources>

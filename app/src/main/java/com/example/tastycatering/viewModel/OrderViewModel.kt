@@ -266,7 +266,7 @@ class OrderViewModel @ViewModelInject constructor(
 
                 if (hour!=null && minute!=null){
                     val c = Calendar.getInstance()
-                    c.set(Calendar.HOUR,hour)
+                    c.set(Calendar.HOUR_OF_DAY,hour)
                     c.set(Calendar.MINUTE,minute)
                     timeTxt.value = SimpleDateFormat("h:mm a", Locale.US).format(c.time)
                     date.value = date.value!!.copy(hour = hour,minute = minute)
