@@ -11,6 +11,7 @@ import com.example.tastycatering.R
 import com.example.tastycatering.data.model.*
 import com.example.tastycatering.data.model.Date
 import com.example.tastycatering.data.repositry.FirebaseRepository
+import com.example.tastycatering.util.DateFormatter
 import com.example.tastycatering.util.NetworkHelper
 import kotlinx.coroutines.launch
 import java.text.DateFormat
@@ -19,7 +20,8 @@ import java.util.*
 
 class OrderViewModel @ViewModelInject constructor(
     private val networkHelper: NetworkHelper,
-    private val firebaseRepository: FirebaseRepository
+    private val firebaseRepository: FirebaseRepository,
+    private val dateFormatter: DateFormatter
 
 ) : ViewModel(){
 
@@ -251,8 +253,6 @@ class OrderViewModel @ViewModelInject constructor(
         viewModelScope.launch {
             if (networkHelper.isNetworkConnected()){
 
-
-
                 if(year!=null && month!=null && day!=null){
                     val c = Calendar.getInstance()
                     c.set(Calendar.YEAR,year)
@@ -347,5 +347,7 @@ class OrderViewModel @ViewModelInject constructor(
             }
         }
     }
+
+    fun cancelOrder(orderId:String) = firebaseRepository.deleteOrder(orderId)
 
 }

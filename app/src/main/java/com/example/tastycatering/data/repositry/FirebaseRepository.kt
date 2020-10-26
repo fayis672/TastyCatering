@@ -2,19 +2,12 @@ package com.example.tastycatering.data.repositry
 
 import android.net.Uri
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.example.tastycatering.data.model.Address
-import com.example.tastycatering.data.model.Food
 import com.example.tastycatering.data.model.Order
-import com.example.tastycatering.data.model.Response
-import com.example.tastycatering.viewModel.HomeViewModel
-import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import javax.inject.Inject
@@ -24,7 +17,7 @@ class FirebaseRepository @Inject constructor(
 
 ){
 
-    private val firestore = FirebaseFirestore.getInstance()
+    private val firestoreDB = FirebaseFirestore.getInstance()
     private val storageRef = FirebaseStorage.getInstance().reference
 
     private val user = FirebaseAuth.getInstance().currentUser
@@ -36,11 +29,11 @@ class FirebaseRepository @Inject constructor(
 
     fun getUser() = user?.uid
 
-    fun  getFood() :CollectionReference = firestore.collection("food")
+    fun  getFood() :CollectionReference = firestoreDB.collection("food")
 
     fun  addAddress(address: Address): Boolean {
 
-        firestore.collection("address").add(address)
+        firestoreDB.collection("address").add(address)
             .addOnSuccessListener {
                 Log.d("ok","Document Written with id ${it.id}")
                 error.value = false
@@ -53,13 +46,13 @@ class FirebaseRepository @Inject constructor(
         return error.value!!
     }
 
-    fun getAllAddress()  = firestore.collection("address").whereEqualTo("user_id",getUser())
+    fun getAllAddress()  = firestoreDB.collection("address").whereEqualTo("user_id",getUser())
 
     fun getFoodData(foodId:String)=
-      firestore.collection("food").whereEqualTo("food_id",foodId)
+      firestoreDB.collection("food").whereEqualTo("food_id",foodId)
 
     fun addOrder(order: Order):Boolean{
-        firestore.collection("orders")
+        firestoreDB.collection("orders")
             .add(order).addOnFailureListener{
             Log.w("error",it.toString())
                 error.value = true
@@ -72,9 +65,21 @@ class FirebaseRepository @Inject constructor(
     }
 
     fun getUserOrders() =
-        firestore.collection("orders").whereEqualTo("user_id",getUser())
+        firestoreDB.collection("orders").whereEqualTo("user_id",getUser())
 
     fun getImgUrl(): Task<Uri> = storageRef.child("food_img/Untitled-1.png").downloadUrl
+
+    fun deleteOrder(orderId:String){
+        firestoreDB.collection("orders").whereEqualTo("order_id",orderId)
+            .addSnapshotListener { snapshot, error ->
+                snapshot.let {
+                    it?.forEach {doc->
+                        firestoreDB.collection("orders").document(doc.id).delete()
+                    }
+                }
+            }
+
+    }
 
 
     }
