@@ -59,6 +59,7 @@ class OrderViewModel @ViewModelInject constructor(
     val totalPrice:MutableLiveData<Double> = MutableLiveData()
     val orderError:MutableLiveData<String> = MutableLiveData()
     val orderList:MutableLiveData<List<Order>> = MutableLiveData()
+   // val cancelOrder:MutableLiveData<Boolean> = MutableLiveData()
 
     //private val response:MutableLiveData<Response> = MutableLiveData(Response(null,true,null))
 
@@ -348,6 +349,10 @@ class OrderViewModel @ViewModelInject constructor(
         }
     }
 
-    fun cancelOrder(orderId:String) = firebaseRepository.deleteOrder(orderId)
+    fun deleteOrder(orderId:String) = firebaseRepository.deleteOrder(orderId)
+
+//    fun cancelOrder(cancel:Boolean=false){
+//        cancelOrder.value = cancel
+//    }
 
 }

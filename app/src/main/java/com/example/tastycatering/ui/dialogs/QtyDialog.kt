@@ -33,9 +33,6 @@ class QtyDialog : DialogFragment() {
                     dialog.dismiss()
                     viewModel.setPrice()
                 }
-                .setNegativeButton(R.string.fui_cancel) { dialog, _ ->
-                    dialog.dismiss()
-                }
             builder.create()
 
         }?: throw IllegalStateException("Activity cannot be null")

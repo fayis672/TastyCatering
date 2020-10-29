@@ -7,15 +7,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.tastycatering.R
 import com.example.tastycatering.data.model.Order
 import com.example.tastycatering.databinding.CardOrderBinding
+import com.example.tastycatering.generated.callback.OnClickListener
+import com.example.tastycatering.ui.dialogs.CancelOrderConfirmDialog
+import com.example.tastycatering.ui.fragments.MyOrdersFragment
 import com.example.tastycatering.util.DateFormatter
 
 class OrderReAdapter(
-    private val orderList:List<Order>
+    private val orderList:List<Order>,
+    private val callback: (String?) -> Unit
     
 ) : RecyclerView.Adapter<OrderReAdapter.OdderHolder>() {
 
     private val dateFormatter = DateFormatter()
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OdderHolder {
         return OdderHolder(
@@ -35,6 +38,9 @@ class OrderReAdapter(
             orderList[position].date_time?.hour,
             orderList[position].date_time?.minute
         )
+        holder.binding.btnCancel.setOnClickListener {
+            callback.invoke(orderList[position].order_id)
+        }
     }
 
     override fun getItemCount(): Int = orderList.size
