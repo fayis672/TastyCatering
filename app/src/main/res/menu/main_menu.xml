@@ -22,7 +22,7 @@
         android:icon="@drawable/setting_icon"
         android:title="@string/settings"/>
 
-    <item android:id="@+id/contact_us"
+    <item android:id="@+id/contactUsFragment"
         android:icon="@drawable/contact_us_icon"
         android:title="@string/contact_us"/>
 

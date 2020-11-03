@@ -9,6 +9,4 @@
         android:width="120dp"
         android:gravity="center"
         android:drawable="@drawable/logo"/>
-
-
 </layer-list>

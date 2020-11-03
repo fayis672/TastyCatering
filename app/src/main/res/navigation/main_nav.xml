@@ -65,5 +65,10 @@
             app:argType="string"
             android:defaultValue="null" />
     </activity>
+    <fragment
+        android:id="@+id/contactUsFragment"
+        android:name="com.example.tastycatering.ui.fragments.ContactUsFragment"
+        android:label="fragment_contact_us"
+        tools:layout="@layout/fragment_contact_us" />
 
 </navigation>
